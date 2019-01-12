@@ -10,8 +10,7 @@
                 <input type="text" id="email" v-model="email" placeholder="me@example.com" autocomplete="off">
 
                 <label for="password">Password</label>&nbsp;
-                <i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
-                <input :type="passwordType" id="password" v-model="password" placeholder="**********">
+                <input :type="password" id="password" v-model="password" placeholder="**********">
 
                 <button type="submit">Log in</button>
             </form>
@@ -25,20 +24,12 @@
             return {
                 email: '',
                 password: '',
-                hidePassword: true
             };
-        },
-        computed: {
-            passwordType() {
-                return this.hidePassword ? 'password' : 'text'
-            },
-            passwordIcon() {
-                return this.hidePassword ? 'fa-eye' : 'fa-eye-slash'
-            }
         },
         methods: {
             doLogin() {
-                alert('Not implemented yet :O')
+                // TODO: do login
+                this.$services.loginService.tryLogin({username: this.email, password: this.password})
             }
         }
     }
