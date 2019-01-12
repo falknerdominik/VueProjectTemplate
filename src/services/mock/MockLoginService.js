@@ -1,9 +1,11 @@
-export class MockLoginService {
+export default class MockLoginService {
     static tryLogin({ username, password }) {
         return {
             state: 'successful',
-            user:  'salt',
-            fullName: `${username} ${password}`
+            account: {
+                user:  'salt',
+                fullName: `${username} ${password}`,
+            },
         };
     }
 }

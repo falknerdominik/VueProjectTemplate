@@ -10,7 +10,7 @@
                 <input type="text" id="email" v-model="email" placeholder="me@example.com" autocomplete="off">
 
                 <label for="password">Password</label>&nbsp;
-                <input :type="password" id="password" v-model="password" placeholder="**********">
+                <input type="password" id="password" v-model="password" placeholder="**********">
 
                 <button type="submit">Log in</button>
             </form>
@@ -26,10 +26,19 @@
                 password: '',
             };
         },
+        created: function() {
+            // when component is loaded log the user out
+            this.$store.commit('logout')
+        },
         methods: {
             doLogin() {
-                // TODO: do login
-                this.$services.loginService.tryLogin({username: this.email, password: this.password})
+                this.$store.dispatch('login', {username: this.email, password: this.password})
+                    .then(() => {
+                        this.$router.push({name: 'home'})
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
             }
         }
     }

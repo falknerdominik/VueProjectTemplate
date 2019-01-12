@@ -1,25 +1,41 @@
-const AccountStore = {
-   state: {
-       account: undefined
-   },
+import LoginService from '../services/mock/MockLoginService';
 
-   getters: {
+const AccountStore = {
+    state: {
+        account: undefined
+    },
+
+    getters: {
         isLoggedIn: state => {
-          return state.account !== undefined && state.account !== null  && state.account !== null;
+            return state.account !== undefined && state.account !== null && state.account !== null;
         },
         account: (state, getters) => {
-            if(getters.isLoggedIn) {
+            if (getters.isLoggedIn) {
                 return state.account;
             }
             return null;
         }
-   },
+    },
 
-   mutations: {
-       logout({ state }) {
-           state.account = undefined;
-       }
-   }
+    mutations: {
+        setAccount(state, account) {
+            state.account = account;
+        },
+        logout(state) {
+            state.account = undefined;
+        }
+    },
+
+    actions: {
+        login({ commit, getters }, credentials) {
+            const loginAttempt = LoginService.tryLogin(credentials);
+            if (loginAttempt.state === 'successful') {
+                commit('setAccount', loginAttempt.account);
+            }
+
+            return getters.account;
+        }
+    }
 };
 
 export default AccountStore;

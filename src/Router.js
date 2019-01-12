@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Store from './stores/Store'
 
 import Home from './views/Home'
 import Login from "./views/Login";
@@ -36,9 +37,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     // check if routes requires auth
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        // TODO: check if logged in
-        let isLoggedIn = false;
-        if (!isLoggedIn) {
+        // check if is logged in
+        if (!Store.getters.isLoggedIn) {
             // redirect to login
             next({ name: 'login' });
         } else {
