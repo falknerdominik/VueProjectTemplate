@@ -28,17 +28,18 @@
         },
         created: function() {
             // when component is loaded log the user out
-            this.$store.commit('logout')
+            this.$store.commit('logout');
         },
         methods: {
             doLogin() {
                 this.$store.dispatch('login', {username: this.email, password: this.password})
-                    .then(() => {
+                    .then((account) => {
+                        console.log(account);
                         this.$router.push({name: 'home'})
                     })
                     .catch(err => {
                         console.error(err);
-                    })
+                    });
             }
         }
     }

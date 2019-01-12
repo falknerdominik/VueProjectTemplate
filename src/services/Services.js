@@ -1,11 +1,11 @@
-import {MockLoginService} from "./mock/MockLoginService";
+import MockAccountService from "./mock/MockAccountService";
 
 const services = {
-  loginService: MockLoginService
+  loginService: MockAccountService
 };
 
 let ServicePlugin = {};
-ServicePlugin.install = function (Vue, options) {
+ServicePlugin.install = function (Vue) {
   Vue.prototype.$services = services;
 };
 

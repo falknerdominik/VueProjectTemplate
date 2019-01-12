@@ -1,4 +1,4 @@
-import LoginService from '../services/mock/MockLoginService';
+import LoginService from '../services/mock/MockAccountService';
 
 const AccountStore = {
     state: {
@@ -27,13 +27,17 @@ const AccountStore = {
     },
 
     actions: {
-        login({ commit, getters }, credentials) {
-            const loginAttempt = LoginService.tryLogin(credentials);
-            if (loginAttempt.state === 'successful') {
-                commit('setAccount', loginAttempt.account);
-            }
-
-            return getters.account;
+        login({ commit }, credentials) {
+            return new Promise((resolve, reject) => {
+                LoginService.tryLogin(credentials)
+                    .then(account => {
+                        commit('setAccount', account);
+                        resolve(account);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
         }
     }
 };

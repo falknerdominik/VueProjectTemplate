@@ -6,21 +6,30 @@ import Home from './views/Home'
 import Login from "./views/Login";
 import About from "./views/About";
 
+import PlainLayout from "./layouts/PlainLayout";
+import MenuLayout from "./layouts/MenuLayout";
+
 Vue.use(VueRouter);
 
-const router = new VueRouter({
+const Router = new VueRouter({
     routes: [
         {
             path: '/',
             name: 'login',
-            component: Login
+            component: Login,
+            meta: {
+                requiresAuth: false,
+                layout: PlainLayout.name,
+            }
+
         },
         {
             path: '/home',
             name: 'home',
             component: Home,
             meta: {
-                requiresAuth: true
+                requiresAuth: true,
+                layout: MenuLayout.name,
             }
         },
         {
@@ -28,13 +37,14 @@ const router = new VueRouter({
             name: 'about',
             component: About,
             meta: {
-                requiresAuth: true
+                requiresAuth: true,
+                layout: MenuLayout.name,
             }
         }
     ],
 });
 
-router.beforeEach((to, from, next) => {
+Router.beforeEach((to, from, next) => {
     // check if routes requires auth
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // check if is logged in
@@ -50,4 +60,4 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-export default router;
+export default Router;

@@ -1,30 +1,38 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Login</router-link> |
-      <router-link to="/home">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <component :is="layout">
+            <router-view/>
+        </component>
     </div>
-    <router-view/>
-  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+    export default {
+        name: 'App',
+        data() {
+            return {
+                // init layout
+                layout: this.$router.currentRoute.meta.layout || 'PlainLayout',
+            }
+        },
+        watch: {
+            // update layout whenever the Router object changes
+            $route() {
+                // avoid reloading layout if the same layout is already set
+                if (this.layout !== this.$router.currentRoute.meta.layout) {
+                    this.layout = this.$router.currentRoute.meta.layout || 'PlainLayout';
+                }
+            }
+        }
     }
-  }
-}
+</script>
+
+<style lang="scss">
+    #app {
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+    }
 </style>
